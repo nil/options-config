@@ -5,6 +5,12 @@ Validate and replace your default configuration options with ease.
 The validation scripts for configuration objects are harder to write than it seems. Luckily for you, options-config was released. This tiny library allows you to add a configuration object, of up to 2 levels, into your JavaScript library. This way, without you worrying about the validation mechanisms, your user will be able to replace any configuration option with any valid value.
 
 
+[![Build status](https://travis-ci.org/nil/options-config.svg?branch=master)](https://travis-ci.org/nil/options-config)
+[![Dependencies status](https://img.shields.io/david/dev/nil/options-config.svg)](https://david-dm.org/nil/options-config)
+[![Version](https://img.shields.io/npm/v/options-config.svg)](https://www.npmjs.com/package/options-config)
+[![License](https://img.shields.io/npm/l/options-config.svg)](https://github.com/nil/options-config/blob/master/LICENSE)
+
+
 ## Installation
 
 Open Terminal and install the package with this command:
