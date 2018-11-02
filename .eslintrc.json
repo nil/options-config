@@ -1,0 +1,16 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "func-names": 0,
+    "no-else-return": 0,
+    "prefer-destructuring": 0,
+    "comma-dangle": ["error", "never"],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-restricted-syntax": [0, "BinaryExpression[operator='in']"]
+  }
+}
