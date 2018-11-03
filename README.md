@@ -22,14 +22,14 @@ npm install options-config --save
 Then import options-config into nay file you are planning to use it:
 
 ```js
-// Node’ require()
+// Node’s require()
 const OptionsConfig = require('options-config');
 
 // ES6 imports
 import OptionsConfig from 'options-config';
 ```
 
-Finally do the one time setup:
+Finally, do the one time setup:
 
 ```js
 const options = new OptionsConfig([defaultsObject]);
