@@ -1,4 +1,4 @@
-import simpleTest from './_utils';
+import { simpleValidation } from '../utils';
 
 const oneItem = {
   x: {
@@ -10,9 +10,9 @@ const oneItem = {
 
 const twoItems = {
   x: {
-    default: false,
-    type: 'boolean',
-    values: [false, true]
+    default: [1, 2],
+    type: 'array',
+    values: [[1, 2], [3, 4]]
   },
   y: {
     default: 'foo',
@@ -52,61 +52,61 @@ const twoLevelsDefault = {
   }
 };
 
-describe('Defaults and type', () => {
+describe('Defaults, type and values', () => {
   describe('1 item', () => {
-    simpleTest('Right type',
+    simpleValidation('Right type',
       oneItem,
       { x: 20 });
 
-    simpleTest('Wrong type',
+    simpleValidation('Wrong type',
       oneItem,
       { x: 30 },
       { x: 15 });
   });
 
   describe('2 items', () => {
-    simpleTest('All right types',
+    simpleValidation('All right types',
       twoItems,
-      { x: true, y: 'hey' });
+      { x: [3, 4], y: 'hey' });
 
-    simpleTest('1 right type, 1 wrong type',
+    simpleValidation('1 right type, 1 wrong type',
       twoItems,
-      { x: 'foo', y: 'bar' },
-      { x: false, y: 'bar' });
+      { x: [12, 13, 14], y: 'bar' },
+      { x: [1, 2], y: 'bar' });
 
-    simpleTest('All wrong types',
+    simpleValidation('All wrong types',
       twoItems,
-      { x: 15, y: false },
-      { x: false, y: 'foo' });
+      { x: [15], y: false },
+      { x: [1, 2], y: 'foo' });
   });
 
   describe('2 levels', () => {
-    simpleTest('All right types',
+    simpleValidation('All right types',
       twoLevels,
       { x: { x1: 'bar', x2: false } });
 
-    simpleTest('1 right type, 1 wrong type',
+    simpleValidation('1 right type, 1 wrong type',
       twoLevels,
       { x: { x1: 'string', x2: false } },
       { x: { x1: 'foo', x2: false } });
 
-    simpleTest('All wrong types',
+    simpleValidation('All wrong types',
       twoLevels,
       { x: { x1: 'hey', x2: false } },
       { x: { x1: 'hey', x2: false } });
   });
 
   describe('2 levels with default', () => {
-    simpleTest('All right types',
+    simpleValidation('All right types',
       twoLevelsDefault,
       { x: { x1: 150, x2: 400 } });
 
-    simpleTest('1 right type, 1 wrong type',
+    simpleValidation('1 right type, 1 wrong type',
       twoLevelsDefault,
       { x: { x1: 50, x2: 250 } },
       { x: { x1: 50, x2: 200 } });
 
-    simpleTest('All wrong types',
+    simpleValidation('All wrong types',
       twoLevelsDefault,
       { x: { x1: 25, x2: 40 } },
       { x: { x1: 100, x2: 200 } });

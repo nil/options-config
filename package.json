@@ -1,6 +1,6 @@
 {
   "name": "options-config",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Validate and replace your default configuration options with ease",
   "main": "src/index.js",
   "scripts": {

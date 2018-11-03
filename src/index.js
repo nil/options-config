@@ -1,7 +1,37 @@
 /*!
- * options-config v1.0.0
+ * options-config v1.0.1
  * by Nil Vila
  */
+
+export function getType(val) {
+  return ({}).toString.call(val).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+}
+
+export function areArraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (const i of arr1) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+export function checkIfValueAccepted(val, list) {
+  if (getType(val) === 'array') {
+    for (let i = 0; i < list.length; i += 1) {
+      if (areArraysEqual(list[i], val)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  return list.includes(val);
+}
 
 export function validateChosenValue(key, valObj, list) {
   const object = list[key];
@@ -16,13 +46,13 @@ export function validateChosenValue(key, valObj, list) {
   }
 
   // Return default value if the declared option is not a valid type
-  if (type && !type.includes(typeof val)) {
+  if (type && !type.includes(getType(val))) {
     console.error('type not correct');
     return defaultValue;
   }
 
   // Return default value if hte declared option is not an accepted value
-  if (accepted && !accepted.includes(val)) {
+  if (accepted && !checkIfValueAccepted(val, accepted)) {
     console.error('value not accepted');
     return defaultValue;
   }
@@ -44,7 +74,7 @@ export default class {
         let list = defaults[key];
         let type; let accepted;
 
-        if ((!list.default && list.default !== false && list.default !== 0) || typeof list.default === 'object') {
+        if ((!list.default && list.default !== false && list.default !== 0) || getType(list.default) === 'object') {
           optionsObj[key] = {};
 
           if (list.default) {
