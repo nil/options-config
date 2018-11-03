@@ -1,5 +1,5 @@
 /*!
- * options-config v1.0.1
+ * options-config v1.0.2
  * by Nil Vila
  */
 
@@ -39,6 +39,7 @@ export function validateChosenValue(key, valObj, list) {
   const type = object.type;
   const accepted = object.values;
   const defaultValue = object.default;
+  const warningMessage = `'${key}' now has its default value ('${defaultValue}').`;
 
   // Return default value if the option is not declared
   if (!val && val !== false && val !== 0) {
@@ -47,13 +48,19 @@ export function validateChosenValue(key, valObj, list) {
 
   // Return default value if the declared option is not a valid type
   if (type && !type.includes(getType(val))) {
-    console.error('type not correct');
+    const typeList = getType(type) === 'array' ? `${type.slice(0, -1).join(', ')} or ${type.slice(-1)}` : type;
+
+    console.error(`Data type for '${key}' should be ${typeList}, but not ${getType(val)}.`);
+    console.warn(warningMessage);
+
     return defaultValue;
   }
 
   // Return default value if hte declared option is not an accepted value
   if (accepted && !checkIfValueAccepted(val, accepted)) {
-    console.error('value not accepted');
+    console.error(`'${val}' is not an accepted value for '${key}'.`);
+    console.warn(warningMessage);
+
     return defaultValue;
   }
 
