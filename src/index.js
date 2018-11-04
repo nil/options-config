@@ -1,5 +1,5 @@
 /*!
- * options-config v1.1.2
+ * options-config v1.2.0
  * by Nil Vila
  */
 
@@ -23,11 +23,24 @@ function validateValue(key, valObj, list) {
   const type = object.type;
   const valid = object.valid;
   const range = object.range;
+  const match = object.match;
   const defaultValue = object.default;
   const warningMessage = `'${key}' now has its default value ('${defaultValue}').`;
 
   // Return default value if the option is not declared
   if (!val && val !== false && val !== 0) {
+    return defaultValue;
+  }
+
+  // Return given value if it matches the regex expression, or the default value if it doesn't
+  if (match) {
+    if (getType(val) === 'string' && val.match(match) && val.match(match)[0] === val) {
+      return val;
+    }
+
+    console.error(`'${val}' doesn't match the RegExp expression for '${key}'.`);
+    console.warn(warningMessage);
+
     return defaultValue;
   }
 
@@ -55,8 +68,8 @@ function validateValue(key, valObj, list) {
 
   // Return default value if the given number is not inside the range
   if (range && !inRange(val, range.min, range.max, range.step)) {
-    // console.error(`${val} is not a valid number for '${key}'.`);
-    // console.warn(warningMessage);
+    console.error(`${val} is not a valid number for '${key}'.`);
+    console.warn(warningMessage);
 
     return defaultValue;
   }
@@ -76,7 +89,7 @@ export default class {
     for (const key in defaults) {
       if (Object.prototype.hasOwnProperty.call(defaults, key)) {
         let list = defaults[key];
-        let type; let valid;
+        let type; let valid; let range; let match;
 
         if ((!list.default && list.default !== false && list.default !== 0) || getType(list.default) === 'object') {
           optionsObj[key] = {};
@@ -84,6 +97,8 @@ export default class {
           if (list.default) {
             type = list.type;
             valid = list.valid;
+            range = list.range;
+            match = list.match;
             list = list.default;
           }
 
@@ -91,6 +106,8 @@ export default class {
             if (Object.prototype.hasOwnProperty.call(list, name)) {
               list[name].type = list[name].type || type;
               list[name].valid = list[name].valid || valid;
+              list[name].range = list[name].range || range;
+              list[name].match = list[name].match || match;
 
               optionsObj[key][name] = validateValue(name, obj[key], list);
             }

@@ -7,7 +7,7 @@ const options = new ClassOption();
 
 
 export function simpleValidation(name, defaults, input, output = input) {
-  test(name, () => {
+  test(Number.isInteger(name) ? `Test ${name}` : name, () => {
     expect(options.validate(input, defaults)).toEqual(output);
   });
 }
