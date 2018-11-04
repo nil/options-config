@@ -7,7 +7,7 @@ import { arrayTest } from '../utils';
  *   [expected output]);
  */
 
-describe('areArraysEqual', () => {
+describe('equalArrays', () => {
   arrayTest(1,
     [1, 2, 3],
     [1, 2, 3],

@@ -11,7 +11,7 @@ const string = ['foo', 'bar', 'hello', 'world'];
 const stringNumber = ['foo', 'bar', 10, 20];
 const numberBoolean = [45, 50, true, false];
 
-describe('checkIfValueAccepted', () => {
+describe('isValid', () => {
   validTest(1,
     'foo',
     string,
