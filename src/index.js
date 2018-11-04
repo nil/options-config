@@ -1,5 +1,5 @@
 /*!
- * options-config v1.1.1
+ * options-config v1.1.2
  * by Nil Vila
  */
 

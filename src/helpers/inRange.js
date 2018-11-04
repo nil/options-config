@@ -7,13 +7,11 @@
  * @param {number} step - Distance between two valid values.
  */
 export default function (num, min, max, step) {
-  if (min !== undefined && min > num) {
-    return false;
-  }
-  if (max !== undefined && max < num) {
-    return false;
-  }
-  if (step && !Number.isInteger(((min || 0) - num) / step)) {
+  if (
+    min > num
+    || max < num
+    || (step && !Number.isInteger(((min || 0) - num) / step))
+  ) {
     return false;
   }
 
