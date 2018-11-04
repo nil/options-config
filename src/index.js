@@ -1,43 +1,28 @@
 /*!
- * options-config v1.0.2
+ * options-config v1.1.0
  * by Nil Vila
  */
 
-export function getType(val) {
-  return ({}).toString.call(val).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
-}
+import getType from './helpers/getType';
+import inRange from './helpers/inRange';
+import isValid from './helpers/isValid';
 
-export function areArraysEqual(arr1, arr2) {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
 
-  for (const i of arr1) {
-    if (arr1[i] !== arr2[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-export function checkIfValueAccepted(val, list) {
-  if (getType(val) === 'array') {
-    for (let i = 0; i < list.length; i += 1) {
-      if (areArraysEqual(list[i], val)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  return list.includes(val);
-}
-
-export function validateChosenValue(key, valObj, list) {
+/**
+ * Check if a value fits the restrictions.
+ *
+ * @param {string} key    - Option's name.
+ * @param {object} valObj - Option's value given by the user.
+ * @param {object} list   - Option's restrictions.
+ *
+ * @returns A value, whether it is the default or the given by the user.
+ */
+function validateValue(key, valObj, list) {
   const object = list[key];
   const val = valObj[key];
   const type = object.type;
-  const accepted = object.values;
+  const valid = object.valid;
+  const range = object.range;
   const defaultValue = object.default;
   const warningMessage = `'${key}' now has its default value ('${defaultValue}').`;
 
@@ -46,7 +31,19 @@ export function validateChosenValue(key, valObj, list) {
     return defaultValue;
   }
 
-  // Return default value if the declared option is not a valid type
+  // Return given value if it's a valid value, or default value if it isn't valid
+  if (valid) {
+    if (isValid(val, valid, type)) {
+      return val;
+    }
+
+    console.error(`'${val}' is not a valid value for '${key}'.`);
+    console.warn(warningMessage);
+
+    return defaultValue;
+  }
+
+  // Return default value if the given value isn't a valid type
   if (type && !type.includes(getType(val))) {
     const typeList = getType(type) === 'array' ? `${type.slice(0, -1).join(', ')} or ${type.slice(-1)}` : type;
 
@@ -56,10 +53,10 @@ export function validateChosenValue(key, valObj, list) {
     return defaultValue;
   }
 
-  // Return default value if hte declared option is not an accepted value
-  if (accepted && !checkIfValueAccepted(val, accepted)) {
-    console.error(`'${val}' is not an accepted value for '${key}'.`);
-    console.warn(warningMessage);
+  // Return default value if the given number is not inside the range
+  if (range && !inRange(val, range.min, range.max, range.step)) {
+    // console.error(`${val} is not a valid number for '${key}'.`);
+    // console.warn(warningMessage);
 
     return defaultValue;
   }
@@ -79,27 +76,27 @@ export default class {
     for (const key in defaults) {
       if (Object.prototype.hasOwnProperty.call(defaults, key)) {
         let list = defaults[key];
-        let type; let accepted;
+        let type; let valid;
 
         if ((!list.default && list.default !== false && list.default !== 0) || getType(list.default) === 'object') {
           optionsObj[key] = {};
 
           if (list.default) {
             type = list.type;
-            accepted = list.values;
+            valid = list.valid;
             list = list.default;
           }
 
           for (const name in list) {
             if (Object.prototype.hasOwnProperty.call(list, name)) {
               list[name].type = list[name].type || type;
-              list[name].values = list[name].values || accepted;
+              list[name].valid = list[name].valid || valid;
 
-              optionsObj[key][name] = validateChosenValue(name, obj[key], list);
+              optionsObj[key][name] = validateValue(name, obj[key], list);
             }
           }
         } else {
-          optionsObj[key] = validateChosenValue(key, obj, defaults);
+          optionsObj[key] = validateValue(key, obj, defaults);
         }
       }
     }

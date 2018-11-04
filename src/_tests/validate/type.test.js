@@ -2,22 +2,19 @@ import { simpleValidation } from '../utils';
 
 const oneItem = {
   x: {
-    default: 15,
-    type: 'number',
-    values: [10, 15, 20, 25]
+    default: true,
+    type: 'boolean'
   }
 };
 
 const twoItems = {
   x: {
-    default: [1, 2],
-    type: 'array',
-    values: [[1, 2], [3, 4]]
+    default: 15,
+    type: 'number'
   },
   y: {
     default: 'foo',
-    type: 'string',
-    values: ['foo', 'bar', 'hey']
+    type: 'string'
   }
 };
 
@@ -25,13 +22,11 @@ const twoLevels = {
   x: {
     x1: {
       default: 'foo',
-      type: 'string',
-      values: ['foo', 'bar', 'hey']
+      type: 'string'
     },
     x2: {
-      default: true,
-      type: 'boolean',
-      values: [false, true]
+      default: [1, 2],
+      type: 'array'
     }
   }
 };
@@ -39,76 +34,70 @@ const twoLevels = {
 const twoLevelsDefault = {
   x: {
     default: {
-      x1: {
-        default: 100,
-        values: [50, 100, 150, 200]
-      },
-      x2: {
-        default: 200,
-        values: [100, 200, 300, 400]
-      }
+      x1: { default: 100 },
+      x2: { default: 200 }
     },
     type: 'number'
   }
 };
 
-describe('Defaults, type and values', () => {
+describe('Type', () => {
   describe('1 item', () => {
     simpleValidation('Right type',
       oneItem,
-      { x: 20 });
+      { x: false });
 
     simpleValidation('Wrong type',
       oneItem,
-      { x: 30 },
-      { x: 15 });
+      { x: 'bar' },
+      { x: true });
   });
 
   describe('2 items', () => {
     simpleValidation('All right types',
       twoItems,
-      { x: [3, 4], y: 'hey' });
+      { x: 20, y: 'bar' });
 
     simpleValidation('1 right type, 1 wrong type',
       twoItems,
-      { x: [12, 13, 14], y: 'bar' },
-      { x: [1, 2], y: 'bar' });
+      { x: [5, 6], y: 'hello' },
+      { x: 15, y: 'hello' });
 
     simpleValidation('All wrong types',
       twoItems,
-      { x: [15], y: false },
-      { x: [1, 2], y: 'foo' });
+      { x: false, y: 24 },
+      { x: 15, y: 'foo' });
   });
 
   describe('2 levels', () => {
     simpleValidation('All right types',
       twoLevels,
-      { x: { x1: 'bar', x2: false } });
+      { x: { x1: 'bar', x2: ['foo', 'bar'] } });
 
     simpleValidation('1 right type, 1 wrong type',
       twoLevels,
-      { x: { x1: 'string', x2: false } },
-      { x: { x1: 'foo', x2: false } });
+      { x: { x1: [1, 2], x2: [4, 5] } },
+      { x: { x1: 'foo', x2: [4, 5] } });
 
     simpleValidation('All wrong types',
       twoLevels,
-      { x: { x1: 'hey', x2: false } },
-      { x: { x1: 'hey', x2: false } });
+      { x: { x1: true, x2: 'foo' } },
+      { x: { x1: 'foo', x2: [1, 2] } });
   });
 
   describe('2 levels with default', () => {
     simpleValidation('All right types',
       twoLevelsDefault,
-      { x: { x1: 150, x2: 400 } });
+      { x: { x1: 25, x2: 400 } });
 
     simpleValidation('1 right type, 1 wrong type',
       twoLevelsDefault,
-      { x: { x1: 50, x2: 250 } },
-      { x: { x1: 50, x2: 200 } });
+      { x: { x1: 'foo', x2: 47 } },
+      { x: { x1: 100, x2: 47 } });
 
     simpleValidation('All wrong types',
       twoLevelsDefault,
-      { x: { x1: 25, x2: 40 } },
+      { x: { x1: [1, 2], x2: 'foo' } },
       { x: { x1: 100, x2: 200 } });
   });
 });

@@ -22,10 +22,6 @@ npm install options-config --save
 Then import options-config into nay file you are planning to use it:
 
 ```js
-// Node’s require()
-const OptionsConfig = require('options-config');
-
-// ES6 imports
 import OptionsConfig from 'options-config';
 ```
 
@@ -39,11 +35,12 @@ const options = new OptionsConfig([defaultsObject]);
 
 The defaults’ object is an object containing the default values and restrictions for every configuration option.
 
-| Key       | Type           | Description                                        |
-|:---------:|:--------------:|----------------------------------------------------|
-| `default` | string, object | The result when there isn’t any valid value given. |
-| `type`    | string, array  | Only the values of this type will be valid.        |
-| `values`  | string, array  | The only values that will be valid.                |
+| Key       | Type                  | Description                                         |
+|:---------:|:---------------------:|-----------------------------------------------------|
+| `default` | string, object        | The result when there isn’t any valid value given.  |
+| `type`    | string, array         | Only the values of this type will be valid.         |
+| `valid`   | string, array, object | The only values that will be valid.                 |
+| `range`   | object                | The `min`, `max` and `step` parameters for numbers. |
 
 Practical examples:
 
@@ -55,7 +52,8 @@ const defaultsObject = {
   },
   y: {
     default: 'foo',
-    values: ['foo', 'bar', 'hello', 'world']
+    type: 'string',
+    valid: ['foo', 'bar', 'hello', 'world']
   }
 };
 ```
@@ -77,8 +75,13 @@ const defaultsObject = {
 const defaultsObject = {
   x: {
     x1: {
-      default: 'foo',
-      type: 'string'
+      default: 15,
+      type: 'number',
+      range: {
+        min: 0,
+        max: 100,
+        step: 5
+      }
     },
     x2: {
       default: false,
@@ -87,8 +90,10 @@ const defaultsObject = {
   },
   y: {
     default: 200,
-    type: 'number',
-    values: [0, 100, 200, 300, 400]
+    valid: {
+      number: 'all',
+      string: ['e', 'π', 'pi']
+    }
   }
 };
 ```
