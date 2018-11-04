@@ -1,4 +1,5 @@
-import equalArrays from './equalArrays';
+import isEqual from 'lodash.isequal';
+import includes from 'lodash.includes';
 import getType from './getType';
 
 /**
@@ -8,28 +9,21 @@ import getType from './getType';
  * @param list - A list of all the valid values.
  */
 export default function (val, list) {
-  if (getType(val) === 'array') {
-    for (let i = 0; i < list.length; i += 1) {
-      if (equalArrays(list[i], val)) {
-        return true;
-      }
-    }
-    return false;
+  const inventory = list[getType(val)] || list;
+
+  if (
+    inventory === val
+    || includes(inventory, val)
+    || inventory === 'all'
+  ) {
+    return true;
   }
 
-  if (getType(list) === 'object') {
-    const listByType = list[getType(val)];
-
-    if (listByType === undefined) {
-      return false;
+  for (let i = 0; i < inventory.length; i += 1) {
+    if (isEqual(inventory[i], val)) {
+      return true;
     }
-
-    if (listByType.length === 1 || getType(listByType) === 'string' || listByType.length === undefined) {
-      return listByType === 'all' ? true : listByType === val;
-    }
-
-    return listByType.includes(val);
   }
 
-  return list.includes(val);
+  return false;
 }
