@@ -9,8 +9,16 @@ export default {
     globals: {
       'lodash.isequal': 'isEqual',
       'lodash.includes': 'includes'
-    }
+    },
+    banner: `/*!
+ * options-config v1.2.0
+ * by Nil Vila
+ */`
   },
   external: ['lodash.isequal', 'lodash.includes'],
-  plugins: [terser()]
+  plugins: [terser({
+    output: {
+      comments: /^!/
+    }
+  })]
 };
