@@ -1,4 +1,10 @@
 import { terser } from 'rollup-plugin-terser';
+import info from './package.json';
+
+const bannerText = `/*!
+ * ${info.name} v${info.version}
+ * by ${info.author}
+ */`;
 
 export default {
   input: 'src/index.js',
@@ -10,15 +16,14 @@ export default {
       'lodash.isequal': 'isEqual',
       'lodash.includes': 'includes'
     },
-    banner: `/*!
- * options-config v1.2.0
- * by Nil Vila
- */`
+    banner: bannerText
   },
   external: ['lodash.isequal', 'lodash.includes'],
-  plugins: [terser({
-    output: {
-      comments: /^!/
+  plugins: [terser(
+    {
+      output: {
+        comments: /^!/
+      }
     }
-  })]
+  )]
 };
