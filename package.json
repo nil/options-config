@@ -1,15 +1,13 @@
 {
   "name": "options-config",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Validate and replace your default configuration options with ease",
-  "main": "src/index.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "jest --silent",
-    "minify": "terser src/index.js -c -m -o src/index.min.js --comments /^!/"
+    "build": "rollup --config"
   },
   "keywords": [
-    "js",
-    "javascript",
     "option",
     "options",
     "config",
@@ -17,7 +15,11 @@
     "object",
     "class",
     "validate",
-    "validation"
+    "validation",
+    "js",
+    "javascript",
+    "node",
+    "browser"
   ],
   "homepage": "https://github.com/nil/options-config",
   "repository": "https://github.com/nil/options-config",
@@ -30,11 +32,12 @@
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.7.0",
+    "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "jest": "^23.6.0",
-    "terser": "^3.10.1"
+    "rollup": "^0.67.1",
+    "rollup-plugin-terser": "^3.0.0"
   },
   "dependencies": {
     "lodash.includes": "^4.3.0",

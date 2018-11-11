@@ -1,8 +1,3 @@
-/*!
- * options-config v1.2.0
- * by Nil Vila
- */
-
 import getType from './helpers/getType';
 import inRange from './helpers/inRange';
 import isValid from './helpers/isValid';
