@@ -2,7 +2,7 @@
   "name": "options-config",
   "version": "1.2.0",
   "description": "Validate and replace your default configuration options with ease",
-  "main": "src/index.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "jest --silent",
     "build": "rollup --config"
