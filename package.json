@@ -8,8 +8,6 @@
     "build": "rollup --config"
   },
   "keywords": [
-    "js",
-    "javascript",
     "option",
     "options",
     "config",
@@ -17,7 +15,11 @@
     "object",
     "class",
     "validate",
-    "validation"
+    "validation",
+    "js",
+    "javascript",
+    "node",
+    "browser"
   ],
   "homepage": "https://github.com/nil/options-config",
   "repository": "https://github.com/nil/options-config",
