@@ -10,7 +10,7 @@ export default {
   input: 'src/index.js',
   output: {
     file: 'dist/main.js',
-    name: 'options-config',
+    name: 'optionsConfig',
     format: 'umd',
     globals: {
       'lodash.isequal': 'isEqual',
