@@ -1,3 +1,5 @@
+import { terser } from 'rollup-plugin-terser';
+
 export default {
   input: 'src/index.js',
   output: {
@@ -9,5 +11,6 @@ export default {
       'lodash.includes': 'includes'
     }
   },
-  external: ['lodash.isequal', 'lodash.includes']
+  external: ['lodash.isequal', 'lodash.includes'],
+  plugins: [terser()]
 };
