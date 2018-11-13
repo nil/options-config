@@ -53,9 +53,9 @@ function validateValue(key, valObj, list) {
 
   // Return default value if the given value isn't a valid type
   if (type && !type.includes(getType(val))) {
-    const typeList = getType(type) === 'array' ? `${type.slice(0, -1).join(', ')} or ${type.slice(-1)}` : type;
+    const typeList = getType(type) === 'array' ? `${type.slice(0, -1).join(', ')} or ${type.slice(-1)}, but` : `${type},`;
 
-    console.error(`Data type for '${key}' should be ${typeList}, but not ${getType(val)}.`);
+    console.error(`Data type for '${key}' should be ${typeList} not ${getType(val)}.`);
     console.warn(warningMessage);
 
     return defaultValue;
