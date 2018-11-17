@@ -1,4 +1,12 @@
-import { simpleValidation } from '../utils';
+import {
+  testValidObject,
+  testErrorObject
+} from '../utils';
+
+
+/*
+ * Default objects
+ */
 
 const oneItem = {
   x: {
@@ -56,46 +64,63 @@ const twoLevelsDefault = {
   }
 };
 
+
+/*
+ * Tests
+ */
+
 describe('Range', () => {
   describe('1 item', () => {
-    simpleValidation('Valid number',
-      oneItem,
-      { x: 5 });
+    testValidObject({
+      name: 'Valid number',
+      list: oneItem,
+      input: { x: 5 }
+    });
 
-    simpleValidation('Invalid number',
-      oneItem,
-      { x: 37 },
-      { x: 15 });
+    testErrorObject({
+      name: 'Invalid number',
+      list: oneItem,
+      input: { x: 37 }
+    });
 
-    simpleValidation('Different type',
-      oneItem,
-      { x: false });
+    testValidObject({
+      name: 'Different type',
+      list: oneItem,
+      input: { x: false }
+    });
   });
 
   describe('2 levels', () => {
-    simpleValidation('Valid numbers',
-      twoLevels,
-      { x: { x1: 20, x2: 93479230 } });
+    testValidObject({
+      name: 'Valid numbers',
+      list: twoLevels,
+      input: { x: { x1: 20, x2: 93479230 } }
+    });
 
-    simpleValidation('Invalid numbers',
-      twoLevels,
-      { x: { x1: 30.5, x2: '50' } },
-      { x: { x1: 20.5, x2: 40 } });
+    testErrorObject({
+      name: 'Invalid numbers',
+      list: twoLevels,
+      input: { x: { x1: 30.5, x2: '50' } }
+    });
   });
 
   describe('2 levels with default', () => {
-    simpleValidation('Valid numbers',
-      twoLevelsDefault,
-      { x: { x1: -15.6, x2: 220 } });
+    testValidObject({
+      name: 'Valid numbers',
+      list: twoLevelsDefault,
+      input: { x: { x1: -15.6, x2: 220 } }
+    });
 
-    simpleValidation('Invalid numbers',
-      twoLevelsDefault,
-      { x: { x1: 10, x2: 40 } },
-      { x: { x1: -12.4, x2: 200 } });
+    testErrorObject({
+      name: 'Invalid numbers',
+      list: twoLevelsDefault,
+      input: { x: { x1: 10, x2: 40 } }
+    });
 
-    simpleValidation('Not numbers',
-      twoLevelsDefault,
-      { x: { x1: '-10', x2: 'foo' } },
-      { x: { x1: -12.4, x2: 'foo' } });
+    testErrorObject({
+      name: 'Not numbers',
+      list: twoLevelsDefault,
+      input: { x: { x1: '-10', x2: 'foo' } }
+    });
   });
 });

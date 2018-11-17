@@ -1,4 +1,11 @@
-import { simpleValidation } from '../utils';
+import {
+  testValidObject
+} from '../utils';
+
+
+/*
+ * Default objects
+ */
 
 const oneItem = {
   x: {
@@ -31,43 +38,62 @@ const twoLevelsDefault = {
   }
 };
 
+
+/*
+ * Tests
+ */
+
 describe('Only defaults', () => {
   describe('1 item', () => {
-    simpleValidation('1 declaration',
-      oneItem,
-      { x: 'bar' });
+    testValidObject({
+      name: '1 declaration',
+      list: oneItem,
+      input: { x: 'bar' }
+    });
   });
 
   describe('2 items', () => {
-    simpleValidation('1 declaration',
-      twoItems,
-      { x: { 1: 'yes' } },
-      { x: { 1: 'yes' }, y: 20 });
+    testValidObject({
+      name: '1 declaration',
+      list: twoItems,
+      input: { x: { 1: 'yes' } },
+      output: { x: { 1: 'yes' }, y: 20 }
+    });
 
-    simpleValidation('2 declarations',
-      twoItems,
-      { x: [10, 20], y: 'foo' });
+    testValidObject({
+      name: '2 declarations',
+      list: twoItems,
+      input: { x: [10, 20], y: 'foo' }
+    });
   });
 
   describe('2 levels', () => {
-    simpleValidation('1 declaration',
-      twoLevels,
-      { x: { x1: true } },
-      { x: { x1: true, x2: true } });
+    testValidObject({
+      name: '1 declaration',
+      list: twoLevels,
+      input: { x: { x1: true } },
+      output: { x: { x1: true, x2: true } }
+    });
 
-    simpleValidation('2 declarations',
-      twoLevels,
-      { x: { x1: 100, x2: ['foo', 'bar'] } });
+    testValidObject({
+      name: '2 declarations',
+      list: twoLevels,
+      input: { x: { x1: 100, x2: ['foo', 'bar'] } }
+    });
   });
 
   describe('2 levels with default', () => {
-    simpleValidation('1 declaration',
-      twoLevelsDefault,
-      { x: { x1: 15 } },
-      { x: { x1: 15, x2: 'foo' } });
+    testValidObject({
+      name: '1 declaration',
+      list: twoLevelsDefault,
+      input: { x: { x1: 15 } },
+      output: { x: { x1: 15, x2: 'foo' } }
+    });
 
-    simpleValidation('2 declarations',
-      twoLevelsDefault,
-      { x: { x1: 244, x2: ['foo', 'bar'] } });
+    testValidObject({
+      name: '2 declarations',
+      list: twoLevelsDefault,
+      input: { x: { x1: 'foo', x2: 47 } }
+    });
   });
 });

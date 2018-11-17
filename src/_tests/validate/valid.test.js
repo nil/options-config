@@ -1,4 +1,12 @@
-import { simpleValidation } from '../utils';
+import {
+  testValidObject,
+  testErrorObject
+} from '../utils';
+
+
+/*
+ * Default objects
+ */
 
 const oneItem = {
   x: {
@@ -56,63 +64,83 @@ const twoLevelsDefault = {
   }
 };
 
+
+/*
+ * Tests
+ */
+
 describe('Valid', () => {
   describe('1 item', () => {
-    simpleValidation('Right values',
-      oneItem,
-      { x: 20 });
+    testValidObject({
+      name: 'Right value',
+      list: oneItem,
+      input: { x: 20 }
+    });
 
-    simpleValidation('Wrong values',
-      oneItem,
-      { x: 30 },
-      { x: 15 });
+    testErrorObject({
+      name: 'Wrong value',
+      list: oneItem,
+      input: { x: 30 }
+    });
   });
 
   describe('2 items', () => {
-    simpleValidation('All right values',
-      twoItems,
-      { x: [3, 4], y: 100 });
+    testValidObject({
+      name: 'All right values',
+      list: twoItems,
+      input: { x: [3, 4], y: 100 }
+    });
 
-    simpleValidation('1 right value, 1 wrong value',
-      twoItems,
-      { x: [12, 13, 14], y: 'bar' },
-      { x: [1, 2], y: 'bar' });
+    testErrorObject({
+      name: '1 right value, 1 wrong value',
+      list: twoItems,
+      input: { x: [12, 13, 14], y: 'bar' }
+    });
 
-    simpleValidation('All wrong values',
-      twoItems,
-      { x: [15], y: false },
-      { x: [1, 2], y: 'foo' });
+    testErrorObject({
+      name: 'All wrong values',
+      list: twoItems,
+      input: { x: [15], y: false }
+    });
   });
 
   describe('2 levels', () => {
-    simpleValidation('All right values',
-      twoLevels,
-      { x: { x1: true, x2: 10 } });
+    testValidObject({
+      name: 'All right values',
+      list: twoLevels,
+      input: { x: { x1: true, x2: 10 } }
+    });
 
-    simpleValidation('1 right value, 1 wrong value',
-      twoLevels,
-      { x: { x1: 'string', x2: false } },
-      { x: { x1: 'foo', x2: false } });
+    testErrorObject({
+      name: '1 right value, 1 wrong value',
+      list: twoLevels,
+      input: { x: { x1: 'string', x2: false } }
+    });
 
-    simpleValidation('All wrong values',
-      twoLevels,
-      { x: { x1: 30, x2: 'foo' } },
-      { x: { x1: 'foo', x2: 25 } });
+    testErrorObject({
+      name: 'All wrong values',
+      list: twoLevels,
+      input: { x: { x1: 30, x2: 'foo' } }
+    });
   });
 
   describe('2 levels with default', () => {
-    simpleValidation('All right values',
-      twoLevelsDefault,
-      { x: { x1: 150, x2: 400 } });
+    testValidObject({
+      name: 'All right values',
+      list: twoLevelsDefault,
+      input: { x: { x1: 150, x2: 400 } }
+    });
 
-    simpleValidation('1 right value, 1 wrong value',
-      twoLevelsDefault,
-      { x: { x1: 50, x2: 250 } },
-      { x: { x1: 50, x2: 200 } });
+    testErrorObject({
+      name: '1 right value, 1 wrong value',
+      list: twoLevelsDefault,
+      input: { x: { x1: 50, x2: 250 } }
+    });
 
-    simpleValidation('All wrong values',
-      twoLevelsDefault,
-      { x: { x1: 25, x2: 40 } },
-      { x: { x1: 100, x2: 200 } });
+    testErrorObject({
+      name: 'All wrong values',
+      list: twoLevelsDefault,
+      input: { x: { x1: 25, x2: 40 } }
+    });
   });
 });

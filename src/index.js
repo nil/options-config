@@ -1,6 +1,9 @@
 import getType from './helpers/getType';
-import inRange from './helpers/inRange';
-import isValid from './helpers/isValid';
+import checkMatch from './checkers/checkMatch';
+import checkRange from './checkers/checkRange';
+import checkStatus from './checkers/checkStatus';
+import checkType from './checkers/checkType';
+import checkValid from './checkers/checkValid';
 
 
 /**
@@ -12,6 +15,7 @@ import isValid from './helpers/isValid';
  *
  * @returns A value, whether it is the default or the given by the user.
  */
+
 function validateValue(key, valObj, list) {
   const object = list[key];
   const val = valObj[key];
@@ -20,56 +24,13 @@ function validateValue(key, valObj, list) {
   const range = object.range;
   const match = object.match;
   const defaultValue = object.default;
-  const warningMessage = `'${key}' now has its default value ('${defaultValue}').`;
 
-  // Return default value if the option is not declared
-  if (!val && val !== false && val !== 0) {
-    return defaultValue;
-  }
-
-  // Return given value if it matches the regex expression, or the default value if it doesn't
-  if (match) {
-    if (getType(val) === 'string' && val.match(match) && val.match(match)[0] === val) {
-      return val;
-    }
-
-    console.error(`'${val}' doesn't match the RegExp expression for '${key}'.`);
-    console.warn(warningMessage);
-
-    return defaultValue;
-  }
-
-  // Return given value if it's a valid value, or default value if it isn't valid
-  if (valid) {
-    if (isValid(val, valid, type)) {
-      return val;
-    }
-
-    console.error(`'${val}' is not a valid value for '${key}'.`);
-    console.warn(warningMessage);
-
-    return defaultValue;
-  }
-
-  // Return default value if the given value isn't a valid type
-  if (type && !type.includes(getType(val))) {
-    const typeList = getType(type) === 'array' ? `${type.slice(0, -1).join(', ')} or ${type.slice(-1)}, but` : `${type},`;
-
-    console.error(`Data type for '${key}' should be ${typeList} not ${getType(val)}.`);
-    console.warn(warningMessage);
-
-    return defaultValue;
-  }
-
-  // Return default value if the given number is not inside the range
-  if (range && !inRange(val, range.min, range.max, range.step)) {
-    console.error(`${val} is not a valid number for '${key}'.`);
-    console.warn(warningMessage);
-
-    return defaultValue;
-  }
-
-  return val;
+  return checkStatus(key, val, defaultValue)
+      || checkMatch(key, val, match)
+      || checkValid(key, val, valid, type)
+      || checkType(key, val, type)
+      || checkRange(key, val, range)
+      || val;
 }
 
 

@@ -1,4 +1,12 @@
-import { simpleValidation } from '../utils';
+import {
+  testValidObject,
+  testErrorObject
+} from '../utils';
+
+
+/*
+ * Default objects
+ */
 
 const oneItem = {
   x: {
@@ -41,84 +49,113 @@ const twoLevelsDefault = {
   }
 };
 
+
+/*
+ * Tests
+ */
+
 describe('Match', () => {
-  describe('One item', () => {
-    simpleValidation(1,
-      oneItem,
-      { x: '4four' });
+  describe('1 item', () => {
+    testValidObject({
+      name: '1st valid value',
+      list: oneItem,
+      input: { x: '4four' }
+    });
 
-    simpleValidation(2,
-      oneItem,
-      { x: '2dish' });
+    testValidObject({
+      name: '2nd valid value',
+      list: oneItem,
+      input: { x: '2dish' }
+    });
 
-    simpleValidation(3,
-      oneItem,
-      { x: 'test4' },
-      { x: '1fish' });
+    testErrorObject({
+      name: 'Wrong value',
+      list: oneItem,
+      input: { x: 'test4' }
+    });
 
-    simpleValidation(4,
-      oneItem,
-      { x: 34 },
-      { x: '1fish' });
+    testErrorObject({
+      name: 'Invalid type',
+      list: oneItem,
+      input: { x: 34 }
+    });
   });
 
-  describe('Two items', () => {
-    simpleValidation(1,
-      twoItems,
-      { x: '912-340', y: 'FEDCAE' });
+  describe('2 items', () => {
+    testValidObject({
+      name: '1st valid values',
+      list: twoItems,
+      input: { x: '912-340', y: 'FEDCAE' }
+    });
 
-    simpleValidation(2,
-      twoItems,
-      { x: '854-492', y: 'BEF' });
+    testValidObject({
+      name: '2nd valid values',
+      list: twoItems,
+      input: { x: '854-492', y: 'BEF' }
+    });
 
-    simpleValidation(3,
-      twoItems,
-      { x: false, y: 'AEGC' },
-      { x: '203-186', y: 'ABC' });
+    testErrorObject({
+      name: '1st wrong values',
+      list: twoItems,
+      input: { x: false, y: 'AEGC' }
+    });
 
-    simpleValidation(4,
-      twoItems,
-      { x: '930212', y: 'cabb' },
-      { x: '203-186', y: 'ABC' });
+    testErrorObject({
+      name: '2nd wrong values',
+      list: twoItems,
+      input: { x: '930212', y: 'cabb' }
+    });
   });
 
-  describe('Two levels', () => {
-    simpleValidation(1,
-      twoLevels,
-      { x: { x1: '!/(' } });
+  describe('2 levels', () => {
+    testValidObject({
+      name: '1st valid values',
+      list: twoLevels,
+      input: { x: { x1: '!/(' } }
+    });
 
-    simpleValidation(2,
-      twoLevels,
-      { x: { x1: 'œ√€øπ' } });
+    testValidObject({
+      name: '2nd valid values',
+      list: twoLevels,
+      input: { x: { x1: 'œ√€øπ' } }
+    });
 
-    simpleValidation(3,
-      twoLevels,
-      { x: { x1: 672 } },
-      { x: { x1: '(1)' } });
+    testErrorObject({
+      name: '1st wrong values',
+      list: twoLevels,
+      input: { x: { x1: 672 } }
+    });
 
-    simpleValidation(4,
-      twoLevels,
-      { x: { x1: 'èeé' } },
-      { x: { x1: '(1)' } });
+    testErrorObject({
+      name: '2nd wrong values',
+      list: twoLevels,
+      input: { x: { x1: 'èeé' } }
+    });
   });
 
-  describe('Two levels with default', () => {
-    simpleValidation(1,
-      twoLevelsDefault,
-      { x: { x1: '93.38.123.19', x2: '67.12.34.100' } });
+  describe('2 levels with default', () => {
+    testValidObject({
+      name: '1st valid values',
+      list: twoLevelsDefault,
+      input: { x: { x1: '93.38.123.19', x2: '67.12.34.100' } }
+    });
 
-    simpleValidation(2,
-      twoLevelsDefault,
-      { x: { x1: '0.0.0.0', x2: '125.110.43.1' } });
+    testValidObject({
+      name: '2nd valid values',
+      list: twoLevelsDefault,
+      input: { x: { x1: '0.0.0.0', x2: '125.110.43.1' } }
+    });
 
-    simpleValidation(3,
-      twoLevelsDefault,
-      { x: { x1: '340.130.0.10', x2: '4.5.3.280' } },
-      { x: { x1: '0.0.0.0', x2: '1.2.3.4' } });
+    testErrorObject({
+      name: '1st wrong values',
+      list: twoLevelsDefault,
+      input: { x: { x1: '340.130.0.10', x2: '4.5.3.280' } }
+    });
 
-    simpleValidation(4,
-      twoLevelsDefault,
-      { x: { x1: '-12.23.102.390', x2: [0, 0, 122, 120] } },
-      { x: { x1: '0.0.0.0', x2: '1.2.3.4' } });
+    testErrorObject({
+      name: '2nd wrong values',
+      list: twoLevelsDefault,
+      input: { x: { x1: '-12.23.102.390', x2: [0, 0, 122, 120] } }
+    });
   });
 });

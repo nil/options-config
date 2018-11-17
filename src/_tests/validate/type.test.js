@@ -1,4 +1,12 @@
-import { simpleValidation } from '../utils';
+import {
+  testValidObject,
+  testErrorObject
+} from '../utils';
+
+
+/*
+ * Default objects
+ */
 
 const oneItem = {
   x: {
@@ -41,63 +49,83 @@ const twoLevelsDefault = {
   }
 };
 
+
+/*
+ * Tests
+ */
+
 describe('Type', () => {
   describe('1 item', () => {
-    simpleValidation('Right type',
-      oneItem,
-      { x: false });
+    testValidObject({
+      name: 'Right type',
+      list: oneItem,
+      input: { x: false }
+    });
 
-    simpleValidation('Wrong type',
-      oneItem,
-      { x: 'bar' },
-      { x: true });
+    testErrorObject({
+      name: 'Wrong type',
+      list: oneItem,
+      input: { x: 'bar' }
+    });
   });
 
   describe('2 items', () => {
-    simpleValidation('All right types',
-      twoItems,
-      { x: 20, y: 'bar' });
+    testValidObject({
+      name: 'All right values',
+      list: twoItems,
+      input: { x: 20, y: 'bar' }
+    });
 
-    simpleValidation('1 right type, 1 wrong type',
-      twoItems,
-      { x: [5, 6], y: 'hello' },
-      { x: 15, y: 'hello' });
+    testErrorObject({
+      name: '1 right value, 1 wrong value',
+      list: twoItems,
+      input: { x: [5, 6], y: 'hello' }
+    });
 
-    simpleValidation('All wrong types',
-      twoItems,
-      { x: false, y: 24 },
-      { x: 15, y: 'foo' });
+    testErrorObject({
+      name: 'All wrong values',
+      list: twoItems,
+      input: { x: false, y: 24 }
+    });
   });
 
   describe('2 levels', () => {
-    simpleValidation('All right types',
-      twoLevels,
-      { x: { x1: 'bar', x2: ['foo', 'bar'] } });
+    testValidObject({
+      name: 'All right values',
+      list: twoLevels,
+      input: { x: { x1: 'bar', x2: ['foo', 'bar'] } }
+    });
 
-    simpleValidation('1 right type, 1 wrong type',
-      twoLevels,
-      { x: { x1: [1, 2], x2: [4, 5] } },
-      { x: { x1: 'foo', x2: [4, 5] } });
+    testErrorObject({
+      name: '1 right value, 1 wrong value',
+      list: twoLevels,
+      input: { x: { x1: [1, 2], x2: [4, 5] } }
+    });
 
-    simpleValidation('All wrong types',
-      twoLevels,
-      { x: { x1: true, x2: 'foo' } },
-      { x: { x1: 'foo', x2: [1, 2] } });
+    testErrorObject({
+      name: 'All wrong values',
+      list: twoLevels,
+      input: { x: { x1: true, x2: 'foo' } }
+    });
   });
 
   describe('2 levels with default', () => {
-    simpleValidation('All right types',
-      twoLevelsDefault,
-      { x: { x1: 25, x2: 400 } });
+    testValidObject({
+      name: 'All right values',
+      list: twoLevelsDefault,
+      input: { x: { x1: 25, x2: 400 } }
+    });
 
-    simpleValidation('1 right type, 1 wrong type',
-      twoLevelsDefault,
-      { x: { x1: 'foo', x2: 47 } },
-      { x: { x1: 100, x2: 47 } });
+    testErrorObject({
+      name: '1 right value, 1 wrong value',
+      list: twoLevelsDefault,
+      input: { x: { x1: 'foo', x2: 47 } }
+    });
 
-    simpleValidation('All wrong types',
-      twoLevelsDefault,
-      { x: { x1: [1, 2], x2: 'foo' } },
-      { x: { x1: 100, x2: 200 } });
+    testErrorObject({
+      name: 'All wrong values',
+      list: twoLevelsDefault,
+      input: { x: { x1: [1, 2], x2: 'foo' } }
+    });
   });
 });

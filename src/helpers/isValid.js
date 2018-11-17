@@ -8,6 +8,7 @@ import getType from './getType';
  * @param val  - Any value.
  * @param list - A list of all the valid values.
  */
+
 export default function (val, list) {
   const inventory = list[getType(val)] || list;
 
