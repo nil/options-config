@@ -14,11 +14,16 @@ export default {
     format: 'umd',
     globals: {
       'lodash.isequal': 'isEqual',
-      'lodash.includes': 'includes'
+      'lodash.includes': 'includes',
+      'lodash.isnumber': 'isNumber'
     },
     banner: bannerText
   },
-  external: ['lodash.isequal', 'lodash.includes'],
+  external: [
+    'lodash.isequal',
+    'lodash.includes',
+    'lodash.isnumber'
+  ],
   plugins: [terser(
     {
       output: {

@@ -25,12 +25,23 @@ function validateValue(key, valObj, list) {
   const match = object.match;
   const defaultValue = object.default;
 
-  return checkStatus(key, val, defaultValue)
-      || checkMatch(key, val, match)
-      || checkValid(key, val, valid, type)
-      || checkType(key, val, type)
-      || checkRange(key, val, range)
-      || val;
+  if (checkStatus(val)) {
+    return defaultValue;
+  }
+
+  if (checkMatch(key, val, match)) {
+    return val;
+  }
+
+  if (checkValid(key, val, valid, type)) {
+    return val;
+  }
+
+  checkType(key, val, type);
+
+  checkRange(key, val, range);
+
+  return val;
 }
 
 

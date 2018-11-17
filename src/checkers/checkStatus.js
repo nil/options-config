@@ -1,6 +1,6 @@
-export default function (key, val, defaultValue) {
+export default function (val) {
   if (!val && val !== false && val !== 0) {
-    return defaultValue;
+    return true;
   }
 
   return false;

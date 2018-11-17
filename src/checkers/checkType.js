@@ -10,5 +10,5 @@ export default function (key, val, type) {
     throw new PrintError(`'${val}', ${valType}, is not a valid data type for '${key}' (${typeList}).`);
   }
 
-  return undefined;
+  return false;
 }

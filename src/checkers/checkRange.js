@@ -21,5 +21,5 @@ export default function (key, val, range) {
     }
   }
 
-  return undefined;
+  return false;
 }
