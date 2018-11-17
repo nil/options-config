@@ -7,7 +7,6 @@
  * @param {number} step - Distance between two valid values.
  */
 
-// TODO: check if min, max and step are numbers and throw error if not
 export default function (num, min, max, step) {
   if (
     min > num
