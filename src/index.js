@@ -58,7 +58,7 @@ export default class {
         let list = defaults[key];
         let type; let valid; let range; let match;
 
-        if ((!list.default && list.default !== false && list.default !== 0) || getType(list.default) === 'object') {
+        if (!Object.prototype.hasOwnProperty.call(list, 'default') || getType(list.default) === 'object') {
           optionsObj[key] = {};
 
           if (list.default) {
