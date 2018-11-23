@@ -9,15 +9,14 @@ import checkValid from './checkers/checkValid';
 
 
 /**
- * Check if a value fits the restrictions.
+ * Checks if a value fits the restrictions.
  *
- * @param {string} key    - Option's name.
- * @param {object} valObj - Option's value given by the user.
- * @param {object} list   - Option's restrictions.
+ * @param {string} key    - The name of the option
+ * @param {object} valObj - The value to check.
+ * @param {object} list   - The replacement restrictions.
  *
  * @returns A value, whether it is the default or the given by the user.
  */
-
 function validateValue(key, valObj, list) {
   let type; let valid; let range; let regex;
 

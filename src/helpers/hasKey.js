@@ -1,12 +1,11 @@
 /**
- * Check if an object has a key.
+ * Checks if `key` is declared in `object`.
  *
- * @param {object} object - An object.
- * @param {string} key    - The key to be checked.
+ * @param {object} object - The object to check from.
+ * @param {string} key    - The key to check.
  *
- * @returns {string} Whether the object has the key or not.
+ * @returns {boolean} Returns `true` if `key` is in `object`, else `false`.
  */
-
 export default function (object, key) {
   return Object.prototype.hasOwnProperty.call(object, key);
 }

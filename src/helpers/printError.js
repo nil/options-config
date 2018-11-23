@@ -1,7 +1,7 @@
 /**
- * Stops the program execution and prints an error.
+ * Stops executing the code and prints an error.
  *
- * @param message - The error explanation.
+ * @param {string} message - The error explanation.
  */
 class PrintError {
   constructor(message) {

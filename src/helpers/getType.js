@@ -1,11 +1,10 @@
 /**
- * Get the data type of a given value.
+ * Checks the data type of `value`.
  *
- * @param val - Any value.
+ * @param {*} value - The value to check.
  *
- * @returns {string} Input's data type.
+ * @returns {string} Returns the data type.
  */
-
-export default function (val) {
-  return ({}).toString.call(val).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+export default function (value) {
+  return ({}).toString.call(value).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
 }
