@@ -1,7 +1,7 @@
 import ClassOption from '../index';
 import getType from '../helpers/getType';
-import inRange from '../helpers/inRange';
-import isValid from '../helpers/isValid';
+import { inRange } from '../helpers/inRange';
+import { isValid } from '../helpers/isValid';
 
 const options = new ClassOption();
 

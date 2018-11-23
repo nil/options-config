@@ -1,5 +1,6 @@
-import getType from '../helpers/getType';
-import PrintError from '../helpers/printError';
+import getType from './getType';
+import PrintError from './printError';
+
 
 /**
  * Checks if `value` meets the `type` requirements when `type` is defined.
@@ -8,7 +9,9 @@ import PrintError from '../helpers/printError';
  * @param {*}      value - The value to check.
  * @param {string} type  - The data type of `value`.
  *
- * @returns {boolean} Returns `false` if `value` is data type `type`, else throws error.
+ * @returns {boolean} Returns `false` if `type` is not defined or `value` is data type `type`.
+ *
+ * @throws {Error} Throws error when `type` is defined and is not the data type of `value`.
  */
 export default function (key, value, type) {
   const valType = getType(value);

@@ -1,11 +1,10 @@
 import getType from './helpers/getType';
 import hasKey from './helpers/hasKey';
-
-import checkRegex from './checkers/checkRegex';
-import checkRange from './checkers/checkRange';
-import checkStatus from './checkers/checkStatus';
-import checkType from './checkers/checkType';
-import checkValid from './checkers/checkValid';
+import inRange from './helpers/inRange';
+import isDeclared from './helpers/isDeclared';
+import isMatch from './helpers/isMatch';
+import isType from './helpers/isType';
+import isValid from './helpers/isValid';
 
 
 /**
@@ -33,21 +32,21 @@ function validateValue(key, valObj, list) {
     defaultValue = hasKey(object, 'default') ? object.default : object;
   }
 
-  if (checkStatus(val)) {
+  if (isDeclared(val)) {
     return defaultValue;
   }
 
-  if (checkRegex(key, val, regex)) {
+  if (isMatch(key, val, regex)) {
     return val;
   }
 
-  if (checkValid(key, val, valid, type)) {
+  if (isValid(key, val, valid, type)) {
     return val;
   }
 
-  checkType(key, val, type);
+  isType(key, val, type);
 
-  checkRange(key, val, range);
+  inRange(key, val, range);
 
   return val;
 }

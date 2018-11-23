@@ -1,5 +1,6 @@
-import getType from '../helpers/getType';
-import PrintError from '../helpers/printError';
+import getType from './getType';
+import PrintError from './printError';
+
 
 /**
  * Checks if `value` meets the `regex` requirements when `regex` is defined.
@@ -8,7 +9,9 @@ import PrintError from '../helpers/printError';
  * @param {*}      value - The value to check.
  * @param {regex}  regex - The expression the check is based on.
  *
- * @returns {boolean} Returns `true` if `value` matches `regex`, else throws error.
+ * @returns {boolean} Returns `true` if `regex` is defined and `value` matches it, else `false`.
+ *
+ * @throws {Error} Throws error when `regex` is defined and `value` doesn't match it.
  */
 export default function (key, value, regex) {
   if (regex) {
