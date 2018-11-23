@@ -1,5 +1,7 @@
 import getType from './helpers/getType';
-import checkMatch from './checkers/checkMatch';
+import hasKey from './helpers/hasKey';
+
+import checkRegex from './checkers/checkRegex';
 import checkRange from './checkers/checkRange';
 import checkStatus from './checkers/checkStatus';
 import checkType from './checkers/checkType';
@@ -17,19 +19,26 @@ import checkValid from './checkers/checkValid';
  */
 
 function validateValue(key, valObj, list) {
+  let type; let valid; let range; let regex;
+
   const object = list[key];
-  const val = valObj[key];
-  const type = object.type;
-  const valid = object.valid;
-  const range = object.range;
-  const match = object.match;
-  const defaultValue = object.default;
+  const val = hasKey(valObj, key) ? valObj[key] : 'value_not_defined';
+  let defaultValue = object;
+
+  if (object) {
+    type = object.type;
+    valid = object.valid;
+    range = object.range;
+    regex = object.regex;
+
+    defaultValue = hasKey(object, 'default') ? object.default : object;
+  }
 
   if (checkStatus(val)) {
     return defaultValue;
   }
 
-  if (checkMatch(key, val, match)) {
+  if (checkRegex(key, val, regex)) {
     return val;
   }
 
@@ -54,29 +63,36 @@ export default class {
     const optionsObj = {};
 
     for (const key in defaults) {
-      if (Object.prototype.hasOwnProperty.call(defaults, key)) {
+      if (hasKey(defaults, key)) {
         let list = defaults[key];
-        let type; let valid; let range; let match;
+        let type; let valid; let range; let regex;
 
-        if (!Object.prototype.hasOwnProperty.call(list, 'default') || getType(list.default) === 'object') {
+        if (
+          getType(list) === 'object'
+          && (!hasKey(list, 'default') || getType(list.default) === 'object')
+        ) {
           optionsObj[key] = {};
 
           if (list.default) {
             type = list.type;
             valid = list.valid;
             range = list.range;
-            match = list.match;
+            regex = list.regex;
             list = list.default;
           }
 
           for (const name in list) {
-            if (Object.prototype.hasOwnProperty.call(list, name)) {
-              list[name].type = list[name].type || type;
-              list[name].valid = list[name].valid || valid;
-              list[name].range = list[name].range || range;
-              list[name].match = list[name].match || match;
+            if (hasKey(list, name)) {
+              if (getType(list[name]) === 'object') {
+                list[name].type = list[name].type || type;
+                list[name].valid = list[name].valid || valid;
+                list[name].range = list[name].range || range;
+                list[name].regex = list[name].regex || regex;
+              }
 
-              optionsObj[key][name] = validateValue(name, obj[key], list);
+              const userOptions = obj[key] || {};
+
+              optionsObj[key][name] = validateValue(name, userOptions, list);
             }
           }
         } else {

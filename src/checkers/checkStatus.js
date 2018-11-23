@@ -1,5 +1,5 @@
 export default function (val) {
-  if (!val && val !== false && val !== 0) {
+  if (val === 'value_not_defined') {
     return true;
   }
 

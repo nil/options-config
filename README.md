@@ -40,7 +40,7 @@ The defaults’ object is an object containing the default values and restrictio
 | `default` | string, object        | The result when there isn’t any valid value given.          |
 | `type`    | string, array         | Only the values of this type will be valid.                 |
 | `valid`   | string, array, object | The only values that will be valid.                         |
-| `match`   | regexp                | A RegExp expression that has to match with the given value. |
+| `regex`   | regexp                | A RegExp expression that has to match with the given value. |
 | `range`   | object                | The `min`, `max` and `step` parameters for numbers.         |
 
 Practical examples:
@@ -68,7 +68,7 @@ const defaultsObject = {
       y2: 'bar'
     },
     type: 'string',
-    match: /[A-z]{3}/
+    regex: /[A-z]{3}/
   }
 };
 ```

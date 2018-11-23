@@ -7,35 +7,27 @@ import {
  * Default objects
  */
 
-const oneItem = {
+const defaultKey = {
   x: {
-    default: false
-  }
-};
-
-const twoItems = {
-  x: {
-    default: 'foo'
+    default: undefined
   },
   y: {
-    default: 20
+    default: 14
+  },
+  z: {
+    default: 'foo'
   }
 };
 
-const twoLevels = {
-  x: {
-    x1: { default: [1, 2] },
-    x2: { default: true }
-  }
-};
-
-const twoLevelsDefault = {
-  x: {
-    default: {
-      x1: { default: 100 },
-      x2: { default: 'foo' }
-    }
-  }
+const defaultShortcuts = {
+  a: new Date(1945, 12, 8),
+  b: false,
+  c: 'foo',
+  d: 15,
+  e: undefined,
+  f: null,
+  g: [1, 2],
+  h: /\w/
 };
 
 
@@ -44,56 +36,66 @@ const twoLevelsDefault = {
  */
 
 describe('Only defaults', () => {
-  describe('1 item', () => {
+  describe('Default key', () => {
+    testValidObject({
+      name: 'Empty declaration',
+      list: defaultKey,
+      input: { },
+      output: { x: undefined, y: 14, z: 'foo' }
+    });
+
+    testValidObject({
+      name: 'Inexistent key',
+      list: defaultKey,
+      input: { a: 'bar' },
+      output: { x: undefined, y: 14, z: 'foo' }
+    });
+
     testValidObject({
       name: '1 declaration',
-      list: oneItem,
-      input: { x: 'bar' }
+      list: defaultKey,
+      input: { x: new Date() },
+      output: { x: new Date(), y: 14, z: 'foo' }
+    });
+
+    testValidObject({
+      name: '2 declaration',
+      list: defaultKey,
+      input: { x: { a: true }, z: [1, 2, 3] },
+      output: { x: { a: true }, y: 14, z: [1, 2, 3] }
+    });
+
+    testValidObject({
+      name: '3 declaration',
+      list: defaultKey,
+      input: { x: 'bar', y: 12, z: true }
     });
   });
 
-  describe('2 items', () => {
+  describe('Shortcuts', () => {
     testValidObject({
-      name: '1 declaration',
-      list: twoItems,
-      input: { x: { 1: 'yes' } },
-      output: { x: { 1: 'yes' }, y: 20 }
+      name: 'Empty declaration',
+      list: defaultShortcuts,
+      input: { },
+      output: {
+        a: new Date(1945, 12, 8), b: false, c: 'foo', d: 15, e: undefined, f: null, g: [1, 2], h: /\w/
+      }
     });
 
     testValidObject({
-      name: '2 declarations',
-      list: twoItems,
-      input: { x: [10, 20], y: 'foo' }
-    });
-  });
-
-  describe('2 levels', () => {
-    testValidObject({
-      name: '1 declaration',
-      list: twoLevels,
-      input: { x: { x1: true } },
-      output: { x: { x1: true, x2: true } }
+      name: '1st set of declarations',
+      list: defaultShortcuts,
+      input: {
+        a: true, b: new Date(), c: null, d: { x: 1 }, e: 'bar', f: undefined, g: 15, h: [15, 16, 17]
+      }
     });
 
     testValidObject({
-      name: '2 declarations',
-      list: twoLevels,
-      input: { x: { x1: 100, x2: ['foo', 'bar'] } }
-    });
-  });
-
-  describe('2 levels with default', () => {
-    testValidObject({
-      name: '1 declaration',
-      list: twoLevelsDefault,
-      input: { x: { x1: 15 } },
-      output: { x: { x1: 15, x2: 'foo' } }
-    });
-
-    testValidObject({
-      name: '2 declarations',
-      list: twoLevelsDefault,
-      input: { x: { x1: 'foo', x2: 47 } }
+      name: '2nd set of declarations',
+      list: defaultShortcuts,
+      input: {
+        a: ['foo', 'bar'], b: 189, c: true, d: undefined, e: 'world', f: /\d{3}/, g: new Date(), h: null
+      }
     });
   });
 });

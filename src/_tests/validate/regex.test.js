@@ -11,18 +11,18 @@ import {
 const oneItem = {
   x: {
     default: '1fish',
-    match: /\d[a-z]+/
+    regex: /\d[a-z]+/
   }
 };
 
 const twoItems = {
   x: {
     default: '203-186',
-    match: /\d{3}-\d{3}/
+    regex: /\d{3}-\d{3}/
   },
   y: {
     default: 'ABC',
-    match: /[A-F]+/
+    regex: /[A-F]+/
   }
 };
 
@@ -30,7 +30,7 @@ const twoLevels = {
   x: {
     x1: {
       default: '(1)',
-      match: /[^A-z]+/
+      regex: /[^A-z]+/
     }
   }
 };
@@ -45,7 +45,7 @@ const twoLevelsDefault = {
         default: '1.2.3.4'
       }
     },
-    match: /\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
+    regex: /\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
   }
 };
 
@@ -54,7 +54,7 @@ const twoLevelsDefault = {
  * Tests
  */
 
-describe('Match', () => {
+describe('Regex', () => {
   describe('1 item', () => {
     testValidObject({
       name: '1st valid value',
