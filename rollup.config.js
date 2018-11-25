@@ -11,7 +11,7 @@ export default {
   output: {
     file: 'dist/main.js',
     name: 'optionsConfig',
-    format: 'umd',
+    format: 'esm',
     globals: {
       'lodash.isequal': 'isEqual',
       'lodash.includes': 'includes',
@@ -24,11 +24,11 @@ export default {
     'lodash.includes',
     'lodash.isnumber'
   ],
-  plugins: [terser(
-    {
+  plugins: [
+    terser({
       output: {
         comments: /^!/
       }
-    }
-  )]
+    })
+  ]
 };
