@@ -1,5 +1,5 @@
 import getType from './getType';
-import PrintError from './printError';
+import printError from './printError';
 
 
 /**
@@ -19,7 +19,7 @@ export default function (key, value, regex) {
       return true;
     }
 
-    throw new PrintError(`'${value}' doesn't match the Regex expression ${regex} for '${key}'.`);
+    printError(`'${value}' doesn't match the Regex expression ${regex} for '${key}'.`);
   }
 
   return false;

@@ -1,5 +1,5 @@
 import isNumber from 'lodash.isnumber';
-import PrintError from './printError';
+import printError from './printError';
 
 
 /**
@@ -24,7 +24,7 @@ export default function (key, value, range) {
       || (!isNumber(max) && max !== undefined)
       || (!isNumber(step) && step !== undefined)
     ) {
-      throw new PrintError(`Range is not properly configured for '${key}'.`);
+      printError(`Range is not properly configured for '${key}'.`);
     }
 
     if (
@@ -32,7 +32,7 @@ export default function (key, value, range) {
       || max < value
       || (step && !Number.isInteger(((min || 0) - value) / step))
     ) {
-      throw new PrintError(`${value} doesn't fit the range specified for '${key}'.`);
+      printError(`${value} doesn't fit the range specified for '${key}'.`);
     }
   }
 

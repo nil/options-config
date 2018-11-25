@@ -1,6 +1,6 @@
 {
   "name": "options-config",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Validate and replace your default configuration options with ease",
   "main": "dist/main.js",
   "scripts": {
@@ -40,6 +40,7 @@
     "rollup-plugin-terser": "^3.0.0"
   },
   "dependencies": {
+    "custom-error": "^0.2.1",
     "lodash.includes": "^4.3.0",
     "lodash.isequal": "^4.5.0",
     "lodash.isnumber": "^3.0.3"

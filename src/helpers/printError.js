@@ -1,17 +1,12 @@
+import customError from 'custom-error';
+
 /**
  * Stops executing the code and prints an error.
  *
  * @param {string} message - The error explanation.
  */
-class PrintError {
-  constructor(message) {
-    this.name = 'options-config';
-    this.message = message;
+export default function (message) {
+  const OptionsConfigError = customError('options-config');
 
-    this.stack = (new Error()).stack;
-  }
+  throw OptionsConfigError(message);
 }
-
-PrintError.prototype = new Error();
-
-export default PrintError;

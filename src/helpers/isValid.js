@@ -1,7 +1,7 @@
 import isEqual from 'lodash.isequal';
 import includes from 'lodash.includes';
 import getType from './getType';
-import PrintError from './printError';
+import printError from './printError';
 
 
 /**
@@ -35,7 +35,7 @@ export default function (key, value, valid) {
 
     const validList = getType(valid) === 'array' && valid.length > 1 ? `${valid.slice(0, -1).join(', ')} or ${valid.slice(-1)}` : `${valid}`;
 
-    throw new PrintError(`'${value}' doesn't match any of the valid values for '${key}' (${validList}).`);
+    printError(`'${value}' doesn't match any of the valid values for '${key}' (${validList}).`);
   }
 
   return false;

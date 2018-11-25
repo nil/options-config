@@ -1,5 +1,5 @@
 import getType from './getType';
-import PrintError from './printError';
+import printError from './printError';
 
 
 /**
@@ -19,7 +19,7 @@ export default function (key, value, type) {
   if (type && !type.includes(valType)) {
     const typeList = getType(type) === 'array' && type.length > 1 ? `${type.slice(0, -1).join(', ')} or ${type.slice(-1)}` : `${type}`;
 
-    throw new PrintError(`'${value}', ${valType}, is not a valid data type for '${key}' (${typeList}).`);
+    printError(`'${value}', ${valType}, is not a valid data type for '${key}' (${typeList}).`);
   }
 
   return false;

@@ -13,6 +13,7 @@ export default {
     name: 'optionsConfig',
     format: 'esm',
     globals: {
+      'custom-error': 'customError',
       'lodash.isequal': 'isEqual',
       'lodash.includes': 'includes',
       'lodash.isnumber': 'isNumber'
@@ -20,6 +21,7 @@ export default {
     banner: bannerText
   },
   external: [
+    'custom-error',
     'lodash.isequal',
     'lodash.includes',
     'lodash.isnumber'
