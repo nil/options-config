@@ -1,6 +1,6 @@
 {
   "name": "options-config",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Validate and replace your default configuration options with ease",
   "main": "dist/main.js",
   "scripts": {

@@ -11,7 +11,7 @@ export default {
   output: {
     file: 'dist/main.js',
     name: 'optionsConfig',
-    format: 'esm',
+    format: 'cjs',
     globals: {
       'custom-error': 'customError',
       'lodash.isequal': 'isEqual',
